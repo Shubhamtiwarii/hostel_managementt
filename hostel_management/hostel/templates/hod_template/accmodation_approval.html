@@ -1,0 +1,74 @@
+{% extends 'hod_template/base_template.html' %}
+{% block page_title %}Accmodation Approval{% endblock page_title %}
+{% load static %}
+{% block main_content %}
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+        <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Acmmodation Approval</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Requester Email</th>
+                      <th>Hostel Name</th>
+                      <th>Room Type</th>
+                      <th>Room</th>
+                      <th>From Date</th>
+                      <th>To Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for room in room_approval %}
+                    <tr>
+                      <td>{{room.id}}</td>
+                      <td>{{room.staff.admin.email}}</td>
+                      <td>{{room.hostel_name}}</td>
+                      <td>{{room.room_type}}</td>
+                      <td>{{room.room_number}}</td>
+                      <td>{{room.from_date}}</td>
+                      <td>{{room.to_date}}</td>
+                      <td>
+                        {% if room.status == 0 %}
+                        {% comment %} <span class="badge badge-primary">Pending</span> {% endcomment %}
+                        <a href="{% url "accmodation_approve" id=room.id %}" class="btn btn-success">Approve</a>
+                        <a href="{% url "accmodation_reject" id=room.id %}" class="btn btn-danger" >Disaprove</a>
+                    {% elif room.status == 1 %}
+                    {% comment %} <span class="badge badge-success">Alloted</span> {% endcomment %}
+                    <button class="btn btn-warning" disabled="disabled">Approve</button>
+                    {% elif room.status == 2  %}
+                    <button class="btn btn-danger" disabled="disabled">Reject</button>
+                    {% endif %}
+                      </td>
+                    </tr>
+                    
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  {% endblock main_content %}
+  

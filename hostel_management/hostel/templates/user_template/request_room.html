@@ -1,0 +1,106 @@
+{% extends 'user_template/base_template.html' %}
+{% block page_title %}Request For Accomodation{% endblock page_title %}
+{% load static %}
+
+{% block main_content %}
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+     <div class="row">
+        
+            <!-- left column -->
+            <div class="col-md-6">
+              <!-- general form elements -->
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Request for Accomodation </h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form" method="post" action="/request_room" >
+                    {% csrf_token %}
+                  <div class="card-body">
+                   
+                    <div class="form-group">
+                        <label>Hostel</label>
+                        <select class="form-control" name="hostel_select" id="hostel_select" onchange="fetchAvailableRooms()">
+                          <option></option>
+                            {% for hostel in hostel %}
+                                
+                                <option value="{{hostel.id}}">{{ hostel.hostel_name }} </option>
+                            {% endfor %}
+                        </select>
+                      
+                      </div>
+                      {% comment %} <div class="form-group">
+                        <label>Room Type</label>
+                        <select class="form-control" name="room_type" id="room_type" disabled>
+                          <option></option>
+                        </select>
+                      </div> {% endcomment %}
+                      <div class="form-group">
+                        <label>Room Type</label>
+                        <select class="form-control" name="room_type" id="room_type" onchange="fetchAvailableRoomNumbers()">
+                          <option></option>
+                          <option value="1 ST AT AC">1 ST AT AC</option>
+                          <option value="2 ST AT AC">2 ST AT AC</option>
+                          <option value="3 ST AT AC">3 ST AT AC</option>
+                          <option value="4 ST AT AC">4 ST AT AC</option>
+                          <option value="1 ST AT ">1 ST AT</option>
+                          <option value="2 ST AT ">2 ST AT</option>
+                          <option value="3 ST AT ">3 ST AT</option>
+                          <option value="4 ST AT ">4 ST AT</option>
+
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Room Number</label>
+                        <select class="form-control" name="room_number" id="room_number" disabled>
+                          <option></option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>From Date</label>
+                        <input type="date" class="form-control" name="from_date" placeholder="Enter From Date">
+                      </div>
+                      <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date" class="form-control" name="to_date" placeholder="Enter To Date">
+                      </div>
+
+                    
+                       <div class="form-group">
+                      {% if messages %}
+                      
+                        {% for message in messages %}
+                        {% if message.tags == 'error'%}
+                        <div class="alert alert-danger" style="margin-top:10px">{{message}}</div>
+                        {% endif %}
+
+                        {% if message.tags == 'success'%}
+                        <div class="alert alert-success" style="margin-top:10px">{{message}}</div>
+                        {% endif %}
+
+                        {% endfor %}
+                      
+                      {% endif %}
+                    </div> 
+                     <div class="form-group">
+                      <div id="error_message" class="alert alert-danger" style="display: none;"></div>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+  
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-block">Send For Approval</button>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card -->
+  
+         
+     </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+{% endblock main_content %}
